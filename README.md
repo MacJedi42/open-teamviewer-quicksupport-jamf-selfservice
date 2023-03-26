@@ -1,6 +1,7 @@
-TeamViewer QuickSupport Manager
+TeamViewer QuickSupport Launcher
 
 This repository contains a script that manages TeamViewer Quick Support on macOS. The script ensures that TeamViewer Quick Support is present, up-to-date, and configured with the correct branding and pre-set password. If TeamViewer is not installed, it will download and install it. If the installed version is outdated, it will update it. The script also checks the OS version and installs a compatible TeamViewer version if necessary.
+
 Features
 
     Check and close any running instances of TeamViewer Host or Desktop.
@@ -20,6 +21,7 @@ Usage
 Author
 
 Sebastian Whincop
+
 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
