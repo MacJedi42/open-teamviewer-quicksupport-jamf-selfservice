@@ -9,6 +9,8 @@
 ## Please note that the script checks if TeamViewer Host and TeamViewer Desktop are running and stops them to prevent conflicts with Quick Support.
 
 #To ensure that the QuickSupport app is correctly configured with a pre-made password and branding, please specify the config ID to be checked.
+#If left blank the config will default to an unbranded instance. 
+# Example: configID=abcdefg
 configID=
 
 #Set the minimum version of TeamViewer. If the minimum version isn't installed then remove the old version and download a new one.
@@ -87,7 +89,7 @@ sleep 1
 majorVersion=$(sw_vers -productVersion | awk -F. '{ print $1; }');
 minorVersion=$(sw_vers -productVersion | awk -F. '{ print $2; }');
 
-## If macOS majorVersion is at least BigSur(11.x) or minorVersion is at least Mojave (xx.14), ensure teamviewer is up to date, otherwise install TeamViewer v11.
+## If macOS majorVersion is at least BigSur(11.xx) or minorVersion is at least Mojave (xx.14), ensure teamviewer is up to date, otherwise install TeamViewer v11.
 if [[ $majorVersion -ge 11 || $minorVersion -ge 14 ]]; then
 	   echo "Checking TeamViewer Version..."
 else
@@ -115,7 +117,7 @@ if [ -d "/Applications/TeamViewerQS.app" ]
 				echo "Config-check identified correct configID continuing........" 
 			else
 				#Set the ID
-				echo "Config-check failed, setting configid to "$configID""
+				echo "Config-check failed, setting configid to '$configID'"
 				xattr -w com.TeamViewer.ConfigurationId "$configID" /Applications/TeamViewerQS.app
 				
 		fi
@@ -140,7 +142,7 @@ if [ -d "/Applications/TeamViewerQS.app" ]
 				then
 					#Minor Version is out of date
 				#	echo "$versioncheck is greater than or equal to minorversion $tvminorVersion - don't do the update"
-					echo "Minimum TeamViewer app version is "$tvmajorVersion"."$tvminorVersion""
+					echo "Minimum TeamViewer app version is '$tvmajorVersion'.'$tvminorVersion'"
 					versioncheck=$(plutil -p /Applications/TeamViewerQS.app/Contents/Info.plist | awk '/CFBundleShortVersionString/ {print substr($3, 2, length($3)-4)}');
 					echo "Detected TeamViewer app version is $versioncheck"
 					echo "TeamViewer is at least version $tvmajorVersion.$tvminorVersion"
@@ -239,7 +241,7 @@ fi
 	#else
 	if [ ! -d "/Applications/TeamViewerQS.app" ]
 	then	
-		/usr/local/bin/jamf displayMessage -message "Self Service was unable to locate TeamViewer QuickSupport, so it will now download it. Once the download is complete, Team Viewer will open automatically. This process should take less than one minute."
+		/usr/local/bin/jamf displayMessage -message "Self Service couldn't find TeamViewer QuickSupport, so it's downloading now. TeamViewer will launch after the download, this should take less than a minute."
 		echo "`date`"
 		echo "I couldn't find TeamViewer QuickSupport, downloading..."
 		curl -sL https://download.teamviewer.com/download/TeamViewerQS.dmg -o /tmp/DATV.dmg
